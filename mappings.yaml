@@ -1,0 +1,32 @@
+functions:
+  Marketing:
+    growth: Growth
+    brand: Brand Management
+    paid media: Performance Marketing
+    content: Content Marketing
+    digital: Digital Marketing
+  Sales:
+    account: Account Management
+    business development: Business Development
+    sales development: Sales Development
+  Engineering:
+    frontend: Frontend Development
+    backend: Backend Development
+    fullstack: Full Stack Development
+
+seniority:
+  intern: Entry
+  junior: Entry
+  associate: Entry
+  analyst: Entry
+  specialist: Mid-Level
+  manager: Manager
+  director: Director
+  vp: VP
+  chief: C-Level
+  cmo: C-Level
+  cto: C-Level
+  head: Director
+  lead: Manager
+  sr: Senior
+  senior: Senior
