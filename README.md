@@ -1,8 +1,8 @@
 # Job Title Categorization API
 
-A simple Flask-based API that classifies job titles into:
-- **Function** (e.g., Marketing, Sales)
-- **Sub-function** (e.g., Growth, Account Management)
+A Flask-based API that categorizes job titles into:
+- **Function** (e.g., Marketing, Engineering, Sales)
+- **Sub-function** (e.g., Growth, Backend, Account Management)
 - **Seniority** (e.g., Entry, Manager, Director)
 
 ---
@@ -10,10 +10,11 @@ A simple Flask-based API that classifies job titles into:
 ## Features
 
 - Accepts job titles via a JSON POST request
-- Extracts function, sub-function, and seniority level
+- Classifies function, sub-function, and seniority with confidence score
+- Provides warnings for uncertain or unmatched values
 - Returns structured JSON output
-- Easy to test with Postman, Hoppscotch, or curl
-- Optional: CORS enabled for browser testing
+- Loads mapping data from a YAML file or defaults
+- CORS enabled for browser-based clients
 
 ---
 
@@ -29,6 +30,7 @@ pip install -r requirements.txt
 ```txt
 flask
 flask-cors
+pyyaml
 ```
 
 ---
@@ -36,7 +38,7 @@ flask-cors
 ## Running the Server
 
 ```bash
-python app.py
+python task3.py
 ```
 
 The API will be accessible at:
@@ -46,6 +48,7 @@ http://localhost:8000/
 ```
 
 ---
+
 #### API Usage
 ##### Endpoint
 ```
@@ -77,7 +80,10 @@ curl -X POST http://localhost:8000/categorise \
   "function": "Marketing",
   "sub_function": "Growth",
   "seniority": "Senior",
-  "matched": true
+  "confidence": 1.0,
+  "matched": true,
+  "warnings": [],
+  "original_title": "Senior Growth Manager"
 }
 ```
 
@@ -88,7 +94,7 @@ curl -X POST http://localhost:8000/categorise \
 | Error | Description |
 |-------|-------------|
 | `405 Method Not Allowed` | You sent a GET instead of POST |
-| `400 Bad Request` | You didn’t send a valid JSON payload |
+| `400 Bad Request` | You didn’t send a valid JSON payload or title is missing |
 
 ---
 
@@ -96,5 +102,5 @@ curl -X POST http://localhost:8000/categorise \
 - VS Code
 - Postman
 
-## Auther
+## Author
 -- Varun Kumar
