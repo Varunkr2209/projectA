@@ -1,2 +1,7 @@
 flask
 flask-cors
+flask-limiter
+gunicorn
+PyYAML
+python-dotenv
+rapidfuzz
