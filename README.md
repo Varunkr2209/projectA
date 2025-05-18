@@ -1,6 +1,6 @@
 # Job Title Categorization API
 
-A Flask-based API that categorizes job titles into:
+An enhanced Flask-based API that classifies job titles into:
 - **Function** (e.g., Marketing, Engineering, Sales)
 - **Sub-function** (e.g., Growth, Backend, Account Management)
 - **Seniority** (e.g., Entry, Manager, Director)
@@ -10,11 +10,14 @@ A Flask-based API that categorizes job titles into:
 ## Features
 
 - Accepts job titles via a JSON POST request
-- Classifies function, sub-function, and seniority with confidence score
-- Provides warnings for uncertain or unmatched values
-- Returns structured JSON output
-- Loads mapping data from a YAML file or defaults
-- CORS enabled for browser-based clients
+- Classifies function, sub-function, and seniority using exact and fuzzy logic
+- Returns structured JSON output with confidence scoring
+- Configuration via YAML and `.env`
+- Rate limiting using `flask-limiter`
+- Logging and error handling
+- Health check and versioned endpoints
+- CORS enabled
+- Docker-ready
 
 ---
 
@@ -30,18 +33,29 @@ pip install -r requirements.txt
 ```txt
 flask
 flask-cors
-pyyaml
+flask-limiter
+gunicorn
+PyYAML
+python-dotenv
+rapidfuzz
 ```
 
 ---
 
 ## Running the Server
 
+### Development
 ```bash
 python task3.py
 ```
 
-The API will be accessible at:
+### Docker
+```bash
+docker build -t job-title-api .
+docker run -p 8000:8000 job-title-api
+```
+
+API will be accessible at:
 
 ```
 http://localhost:8000/
@@ -49,32 +63,50 @@ http://localhost:8000/
 
 ---
 
-#### API Usage
-##### Endpoint
-```
-POST /categorise
+## Environment Variables
+
+You can define the following in a `.env` file:
+
+```env
+PORT=8000
+DEBUG=false
+API_VERSION=v1
+CONFIG_PATH=config/mappings.yaml
+MIN_CONFIDENCE=0.7
 ```
 
-##### Request Header
+---
+
+## API Usage
+
+### Health Check
+```
+GET /health
+```
+
+### Categorize Job Title
+```
+POST /v1/categorise
+```
+
+#### Request Header
 ```
 Content-Type: application/json
 ```
 
-##### Request Body
+#### Request Body
 ```json
 {
   "title": "Senior Growth Manager"
 }
 ```
 
-##### Example `curl`
+#### Example `curl`
 ```bash
-curl -X POST http://localhost:8000/categorise \
-  -H "Content-Type: application/json" \
-  -d '{"title": "Senior Growth Manager"}'
+curl -X POST http://localhost:8000/v1/categorise   -H "Content-Type: application/json"   -d '{"title": "Senior Growth Manager"}'
 ```
 
-##### Response
+#### Response
 ```json
 {
   "function": "Marketing",
@@ -83,24 +115,27 @@ curl -X POST http://localhost:8000/categorise \
   "confidence": 1.0,
   "matched": true,
   "warnings": [],
-  "original_title": "Senior Growth Manager"
+  "original_title": "Senior Growth Manager",
+  "status": "success",
+  "version": "v1"
 }
 ```
 
 ---
 
-## Common Errors I faced
+## Common Errors
 
 | Error | Description |
 |-------|-------------|
 | `405 Method Not Allowed` | You sent a GET instead of POST |
-| `400 Bad Request` | You didn’t send a valid JSON payload or title is missing |
+| `400 Bad Request` | Missing or invalid JSON or title field |
 
 ---
 
-## Tools I used
+## Tools Used
 - VS Code
 - Postman
+- Docker
 
 ## Author
 -- Varun Kumar
