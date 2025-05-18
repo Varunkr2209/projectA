@@ -1,7 +1,11 @@
 flask
 flask-cors
 flask-limiter
+flask-caching
 gunicorn
 PyYAML
 python-dotenv
 rapidfuzz
+pydantic
+pydantic-settings
+python-json-logger
