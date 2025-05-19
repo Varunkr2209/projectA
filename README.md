@@ -95,7 +95,7 @@ curl -X POST http://localhost:8000/v1/categorise \
 
 ***Health Checks:***
 
-bash
+```bash
 curl http://localhost:8000/health
 curl http://localhost:8000/ready
 ```
