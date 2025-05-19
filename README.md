@@ -76,6 +76,26 @@ Content-Type: application/json
   "titles": ["Junior Backend Dev", "VP of Sales", "Lead Digital Marketing"]
 }
 ```
+#### How to Use:
+***Single Title:***
+
+bash
+curl -X POST http://localhost:8000/v1/categorise \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Senior Software Engineer"}'
+  
+***Multiple Titles:***
+
+bash
+curl -X POST http://localhost:8000/v1/categorise \
+  -H "Content-Type: application/json" \
+  -d '{"titles": ["Junior Developer", "Marketing Director"]}'
+
+***Health Checks:***
+
+bash
+curl http://localhost:8000/health
+curl http://localhost:8000/ready
 
 #### Sample Response
 ```json
